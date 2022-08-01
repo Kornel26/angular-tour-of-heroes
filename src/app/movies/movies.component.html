@@ -1,11 +1,19 @@
 <h2>Movies</h2>
 <ul class="movies">
-    <li *ngFor="let movie of movies">
-    <button [class.selected]="movie === selectedMovie" type="button" (click)="onSelect(movie)">
-      <span class="badge">{{movie.id}}</span>
-      <span class="name">{{movie.title}}</span>
-    </button>
+  <li *ngFor="let movie of movies">
+    <a routerLink="/detail/{{movie.id}}">
+      <span class="badge">{{movie.id}}</span> {{movie.title}}
+    </a>
+    <button type="button" class="delete" title="delete movie" (click)="delete(movie)">x</button>
   </li>
 </ul>
 
-<app-movie-detail [movie]="selectedMovie"></app-movie-detail>
+<div>
+  <label for="new-movie">Movie name: </label>
+  <input id="new-movie" #movieName />
+
+  <!-- (click) passes input value to add() and then clears the input -->
+  <button type="button" class="add-button" (click)="add(movieName.value); movieName.value=''">
+    Add movie
+  </button>
+</div>

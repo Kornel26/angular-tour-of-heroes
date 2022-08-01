@@ -1,7 +1,12 @@
 <h1>{{title}}</h1>
  <!--<p>{{description}}</p>-->
 
-<app-movies></app-movies>
+<nav>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/movies">Movies</a>
+</nav>
+
+<router-outlet></router-outlet>
 <app-messages></app-messages>
 
 

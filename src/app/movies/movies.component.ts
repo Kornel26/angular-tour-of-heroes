@@ -8,24 +8,33 @@ import { MessageService } from '../message.service';
   templateUrl: './movies.component.html',
   styleUrls: ['./movies.component.css']
 })
+
 export class MoviesComponent implements OnInit {
-
   movies: Movie[] = [];
-  selectedMovie?: Movie;
 
-  constructor(private movieService: MovieService, private messageService: MessageService) { }
+  constructor(private movieService: MovieService) { }
 
   ngOnInit(): void {
     this.getMovies();
   }
 
-  onSelect(movie: Movie): void  {
-    this.selectedMovie = movie;
-    this.messageService.add(`HeroesComponent: Selected hero id=${movie.id}`);
+  getMovies(): void {
+    this.movieService.getMovies()
+    .subscribe(movies => this.movies = movies);
   }
 
-  getMovies(): void {
-    this.movieService.getMovies().subscribe(movies => this.movies = movies);
+  add(title: string): void {
+    title = title.trim();
+    if (!title) { return; }
+    this.movieService.addMovie({ title } as Movie)
+      .subscribe(movie => {
+        this.movies.push(movie);
+      });
+  }
+
+  delete(movie: Movie): void {
+    this.movies = this.movies.filter(m => m !== movie);
+    this.movieService.deleteMovie(movie.id).subscribe();
   }
 
 }
